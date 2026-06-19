@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Amy, nächstes Date?</title>
+  <title>Amy, 3. Date?</title>
 
   <style>
     * {
@@ -28,7 +28,7 @@
       border-radius: 24px;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
       text-align: center;
-      width: min(94vw, 920px);
+      width: min(94vw, 760px);
       position: relative;
       z-index: 2;
     }
@@ -88,7 +88,6 @@
     }
 
     #introYesBtn,
-    #dateYesBtn,
     #markYesBtn {
       margin-right: 18px;
       transform-origin: center;
@@ -97,7 +96,6 @@
     }
 
     #introNoBtn,
-    #dateNoBtn,
     #markNoBtn {
       position: absolute;
       left: 230px;
@@ -106,7 +104,6 @@
     }
 
     #introMessage,
-    #dateMessage,
     #markMessage,
     #meMessage {
       margin-top: 20px;
@@ -117,7 +114,7 @@
 
     .options-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
       gap: 18px;
       margin-top: 20px;
     }
@@ -129,7 +126,7 @@
       background: #fff9fc;
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      text-align: left;
+      text-align: center;
     }
 
     .option-card:hover {
@@ -139,38 +136,17 @@
 
     .option-image {
       width: 100%;
-      height: 190px;
+      height: 240px;
       display: block;
       object-fit: cover;
       background: #f7d9e7;
     }
 
-    .option-content {
-      padding: 16px;
-    }
-
     .option-title {
-      font-size: 1.15rem;
+      font-size: 1.25rem;
       font-weight: bold;
       color: #222;
-      margin-bottom: 6px;
-    }
-
-    .option-text {
-      color: #555;
-      font-size: 0.96rem;
-      line-height: 1.35;
-    }
-
-    .pill {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: #ff4f93;
-      color: white;
-      font-size: 0.9rem;
-      font-weight: bold;
+      padding: 16px;
     }
 
     .back-btn {
@@ -211,6 +187,20 @@
         opacity: 0;
       }
     }
+
+    @media (max-width: 620px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 26px;
+      }
+
+      .option-image {
+        height: 220px;
+      }
+    }
   </style>
 </head>
 
@@ -219,7 +209,7 @@
 
     <div id="introView">
       <div class="name">Für Amy</div>
-      <h1>Amy, willst du auf ein 2. Date?</h1>
+      <h1>Amy, willst du auf ein 3. Date?</h1>
       <p>Wähle weise.</p>
 
       <div class="buttons">
@@ -232,76 +222,25 @@
 
     <div id="choicesView" class="hidden">
       <div class="name">Für Amy</div>
-      <h1>Okay Amy, was wäre dein Favorit?</h1>
-      <p>Jetzt gibt es drei Optionen.</p>
+      <h1>Okay Amy, wen wählst du?</h1>
 
       <div class="options-grid">
-
-        <div class="option-card" id="dateOption">
-          <svg class="option-image" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#ffd7e7"/>
-                <stop offset="100%" stop-color="#fff1f7"/>
-              </linearGradient>
-            </defs>
-            <rect width="600" height="360" fill="url(#g1)"/>
-            <circle cx="180" cy="150" r="58" fill="#ff9cc4"/>
-            <circle cx="300" cy="120" r="46" fill="#ffc0d8"/>
-            <circle cx="395" cy="165" r="55" fill="#ff7fb1"/>
-            <path d="M155 260 Q210 215 270 260" stroke="#ff4f93" stroke-width="16" fill="none" stroke-linecap="round"/>
-            <path d="M270 260 Q330 215 390 260" stroke="#ff4f93" stroke-width="16" fill="none" stroke-linecap="round"/>
-            <text x="300" y="315" font-size="44" text-anchor="middle" font-family="Arial" fill="#8e2d59" font-weight="bold">3. Date</text>
-          </svg>
-
-          <div class="option-content">
-            <div class="option-title">3. Date</div>
-            <div class="option-text">Ambitioniert. Erst 2. Date zusagen, dann direkt strategisch weiterdenken.</div>
-            <div class="pill">vorausschauend</div>
-          </div>
-        </div>
-
         <div class="option-card" id="markOption">
-          <img class="option-image" src="mark-forster.jpg" alt="Mark Forster Option" />
-
-          <div class="option-content">
-            <div class="option-title">Mark Forster</div>
-            <div class="option-text">Mit extra Realitätscheck. Da kommt nicht sofort die Zusage durch.</div>
-            <div class="pill">mit Gegenargumenten</div>
-          </div>
+          <img class="option-image" src="mark-forster.jpg" alt="Mark Forster" />
+          <div class="option-title">Mark Forster</div>
         </div>
 
         <div class="option-card" id="meOption">
-          <img class="option-image" src="mein-bild.jpg" alt="Mein Bild" />
-
-          <div class="option-content">
-            <div class="option-title">Oder einfach ich?</div>
-            <div class="option-text">Realistischer als Mark Forster und wahrscheinlich einfacher zu erreichen.</div>
-            <div class="pill">Herzregen garantiert</div>
-          </div>
+          <img class="option-image" src="mein-bild.jpg" alt="Ich" />
+          <div class="option-title">Mich</div>
         </div>
-
       </div>
-    </div>
-
-    <div id="dateView" class="hidden">
-      <div class="name">Für Amy</div>
-      <h2>Amy, direkt 3. Date?</h2>
-      <p>Das ist zwar sehr ambitioniert, aber ich unterstütze diesen Gedanken.</p>
-
-      <div class="buttons">
-        <button id="dateYesBtn" class="pink-btn">Ja</button>
-        <button id="dateNoBtn" class="gray-btn">Nein</button>
-      </div>
-
-      <div id="dateMessage"></div>
-      <button class="back-btn" id="backToChoicesFromDate">Zurück zur Auswahl</button>
     </div>
 
     <div id="markView" class="hidden">
       <div class="name">Für Amy</div>
       <h2 id="markTitle">Amy, bist du dir sicher?</h2>
-      <img id="markImage" class="detail-image" src="mark-forster.jpg" alt="Mark Forster Option" />
+      <img id="markImage" class="detail-image" src="mark-forster.jpg" alt="Mark Forster" />
       <div class="hint" id="markHint">Es folgt nun eine sachliche Prüfung dieser Wahl.</div>
       <p id="markText">Bist du dir sicher?</p>
 
@@ -317,7 +256,7 @@
     <div id="meView" class="hidden">
       <div class="name">Für Amy</div>
       <h2>Sehr gute Wahl :)</h2>
-      <img class="detail-image" src="mein-bild.jpg" alt="Mein Bild" />
+      <img class="detail-image" src="mein-bild.jpg" alt="Ich" />
       <p>Endlich eine realistische Option. Dafür regnet es jetzt Herzen.</p>
       <div id="meMessage">Offiziell notiert: Amy hat die beste Option gewählt.</div>
       <button class="back-btn" id="backToChoicesFromMe">Zurück zur Auswahl</button>
@@ -328,7 +267,6 @@
   <script>
     const introView = document.getElementById("introView");
     const choicesView = document.getElementById("choicesView");
-    const dateView = document.getElementById("dateView");
     const markView = document.getElementById("markView");
     const meView = document.getElementById("meView");
 
@@ -336,12 +274,9 @@
     const introNoBtn = document.getElementById("introNoBtn");
     const introMessage = document.getElementById("introMessage");
 
-    const dateOption = document.getElementById("dateOption");
-    const dateYesBtn = document.getElementById("dateYesBtn");
-    const dateNoBtn = document.getElementById("dateNoBtn");
-    const dateMessage = document.getElementById("dateMessage");
-
     const markOption = document.getElementById("markOption");
+    const meOption = document.getElementById("meOption");
+
     const markYesBtn = document.getElementById("markYesBtn");
     const markNoBtn = document.getElementById("markNoBtn");
     const markTitle = document.getElementById("markTitle");
@@ -350,22 +285,16 @@
     const markText = document.getElementById("markText");
     const markMessage = document.getElementById("markMessage");
 
-    const meOption = document.getElementById("meOption");
-
-    const backToChoicesFromDate = document.getElementById("backToChoicesFromDate");
     const backToChoicesFromMark = document.getElementById("backToChoicesFromMark");
     const backToChoicesFromMe = document.getElementById("backToChoicesFromMe");
 
     let introYesSize = 1;
-    let dateYesSize = 1;
     let markYesSize = 1;
 
     let introNoTries = 0;
-    let dateNoTries = 0;
     let markNoTries = 0;
 
     let introInterval;
-    let dateInterval;
     let markInterval;
     let heartRainInterval;
 
@@ -379,17 +308,6 @@
       "Falscher Button",
       "Du meinst Ja",
       "Zu spät",
-      "Systemfehler"
-    ];
-
-    const dateNoTexts = [
-      "Nein",
-      "Sicher?",
-      "Wirklich?",
-      "Denk nochmal nach",
-      "3. Date ist doch gut",
-      "Du meinst Ja",
-      "Fast erwischt",
       "Systemfehler"
     ];
 
@@ -410,7 +328,7 @@
         hint: "Es folgt nun eine sachliche Prüfung dieser Wahl.",
         text: "Bist du dir sicher, dass es wirklich Mark Forster sein muss?",
         image: "mark-forster.jpg",
-        alt: "Mark Forster Option",
+        alt: "Mark Forster",
         button: "Ja"
       },
       {
@@ -418,7 +336,7 @@
         hint: "Realitätscheck Stufe 1",
         text: "Er ist verheiratet.",
         image: "mark-forster.jpg",
-        alt: "Mark Forster Option",
+        alt: "Mark Forster",
         button: "Trotzdem weiter"
       },
       {
@@ -426,7 +344,7 @@
         hint: "Realitätscheck Stufe 2",
         text: "Er hat ein Kind.",
         image: "mark-forster.jpg",
-        alt: "Mark Forster Option",
+        alt: "Mark Forster",
         button: "Okay, weiter"
       },
       {
@@ -434,7 +352,7 @@
         hint: "Realitätscheck Stufe 3",
         text: "Sportsfreund, er ist nicht single.",
         image: "mark-forster.jpg",
-        alt: "Mark Forster Option",
+        alt: "Mark Forster",
         button: "Ich verstehe"
       },
       {
@@ -442,7 +360,7 @@
         hint: "Realitätscheck Stufe 4",
         text: "Die Chöre werden nicht für dich singen.",
         image: "mark-forster.jpg",
-        alt: "Mark Forster Option",
+        alt: "Mark Forster",
         button: "Autsch"
       },
       {
@@ -450,7 +368,7 @@
         hint: "Alternative mit besseren Erfolgsaussichten",
         text: "Bevor du weiter davon träumst: Hier wäre doch auch ein ziemlich guter Vorschlag.",
         image: "mein-bild.jpg",
-        alt: "Realistischere Option",
+        alt: "Ich",
         button: "Okay, dann lieber du"
       }
     ];
@@ -485,80 +403,55 @@
     function showView(viewName) {
       introView.classList.add("hidden");
       choicesView.classList.add("hidden");
-      dateView.classList.add("hidden");
       markView.classList.add("hidden");
       meView.classList.add("hidden");
 
       if (viewName === "intro") introView.classList.remove("hidden");
       if (viewName === "choices") choicesView.classList.remove("hidden");
-      if (viewName === "date") dateView.classList.remove("hidden");
       if (viewName === "mark") markView.classList.remove("hidden");
       if (viewName === "me") meView.classList.remove("hidden");
     }
 
-    function startGrow(kind) {
-      if (kind === "intro") {
-        clearInterval(introInterval);
+    function startIntroGrow() {
+      clearInterval(introInterval);
 
-        introInterval = setInterval(() => {
-          introYesSize += 0.04;
-          introYesBtn.style.transform = `scale(${introYesSize})`;
+      introInterval = setInterval(() => {
+        introYesSize += 0.04;
+        introYesBtn.style.transform = `scale(${introYesSize})`;
 
-          if (introYesSize > 2.2) {
-            introMessage.textContent = "Der Ja-Button gewinnt langsam an Argumenten.";
-          }
+        if (introYesSize > 2.2) {
+          introMessage.textContent = "Der Ja-Button gewinnt langsam an Argumenten.";
+        }
 
-          if (introYesSize > 3.2) {
-            introMessage.textContent = "Es wird eng für Nein, Amy.";
-          }
+        if (introYesSize > 3.2) {
+          introMessage.textContent = "Es wird eng für Nein, Amy.";
+        }
 
-          if (introYesSize > 4.3) {
-            introMessage.textContent = "Ja ist jetzt praktisch unvermeidbar.";
-          }
-        }, 700);
-      }
+        if (introYesSize > 4.3) {
+          introMessage.textContent = "Ja ist jetzt praktisch unvermeidbar.";
+        }
+      }, 700);
+    }
 
-      if (kind === "date") {
-        clearInterval(dateInterval);
+    function startMarkGrow() {
+      clearInterval(markInterval);
 
-        dateInterval = setInterval(() => {
-          dateYesSize += 0.04;
-          dateYesBtn.style.transform = `scale(${dateYesSize})`;
+      markInterval = setInterval(() => {
+        markYesSize += 0.04;
+        markYesBtn.style.transform = `scale(${markYesSize})`;
 
-          if (dateYesSize > 2.2) {
-            dateMessage.textContent = "3. Date klingt immer überzeugender.";
-          }
+        if (markYesSize > 2.2) {
+          markMessage.textContent = "Der Ja-Button versucht dich zur Vernunft zu bringen.";
+        }
 
-          if (dateYesSize > 3.2) {
-            dateMessage.textContent = "Es wird schwierig gegen das 3. Date zu argumentieren.";
-          }
+        if (markYesSize > 3.2) {
+          markMessage.textContent = "Es wird auch hier eng für Nein.";
+        }
 
-          if (dateYesSize > 4.3) {
-            dateMessage.textContent = "Das 3. Date ist fast beschlossen.";
-          }
-        }, 700);
-      }
-
-      if (kind === "mark") {
-        clearInterval(markInterval);
-
-        markInterval = setInterval(() => {
-          markYesSize += 0.04;
-          markYesBtn.style.transform = `scale(${markYesSize})`;
-
-          if (markYesSize > 2.2) {
-            markMessage.textContent = "Der Ja-Button versucht dich zur Vernunft zu bringen.";
-          }
-
-          if (markYesSize > 3.2) {
-            markMessage.textContent = "Es wird auch hier eng für Nein.";
-          }
-
-          if (markYesSize > 4.3) {
-            markMessage.textContent = "Vielleicht ist Mark Forster doch nicht die beste Idee.";
-          }
-        }, 700);
-      }
+        if (markYesSize > 4.3) {
+          markMessage.textContent = "Vielleicht ist Mark Forster doch nicht die beste Idee.";
+        }
+      }, 700);
     }
 
     function moveNoButton(noBtn, yesBtn, kind) {
@@ -590,26 +483,6 @@
         }
       }
 
-      if (kind === "date") {
-        dateYesSize += 0.18;
-        yesBtn.style.transform = `scale(${dateYesSize})`;
-        dateNoTries++;
-        noBtn.textContent = dateNoTexts[dateNoTries % dateNoTexts.length];
-
-        if (dateNoTries === 3) {
-          dateMessage.textContent = "Nein ist beim 3. Date auch eher instabil.";
-        }
-
-        if (dateNoTries === 6) {
-          dateMessage.textContent = "System empfiehlt: 3. Date.";
-        }
-
-        if (dateNoTries === 10) {
-          noBtn.style.display = "none";
-          dateMessage.textContent = "Nein wurde aus Planungsgründen entfernt.";
-        }
-      }
-
       if (kind === "mark") {
         markYesSize += 0.18;
         yesBtn.style.transform = `scale(${markYesSize})`;
@@ -631,24 +504,15 @@
       }
     }
 
-    function resetButtonPair(yesBtn, noBtn) {
-      yesBtn.style.transform = "scale(1)";
-      noBtn.style.display = "inline-block";
-      noBtn.textContent = "Nein";
-      noBtn.style.position = "absolute";
-      noBtn.style.left = "230px";
-      noBtn.style.top = "0";
-    }
-
-    function openDateFlow() {
-      dateYesSize = 1;
-      dateNoTries = 0;
-      dateMessage.textContent = "";
-      dateYesBtn.textContent = "Ja";
-      resetButtonPair(dateYesBtn, dateNoBtn);
-
-      showView("date");
-      startGrow("date");
+    function resetMarkButtons() {
+      markYesSize = 1;
+      markNoTries = 0;
+      markYesBtn.style.transform = "scale(1)";
+      markNoBtn.style.display = "inline-block";
+      markNoBtn.textContent = "Nein";
+      markNoBtn.style.position = "absolute";
+      markNoBtn.style.left = "230px";
+      markNoBtn.style.top = "0";
     }
 
     function renderMarkStep() {
@@ -664,27 +528,23 @@
 
     function openMarkFlow() {
       markStep = 0;
-      markYesSize = 1;
-      markNoTries = 0;
       markMessage.textContent = "";
-
-      resetButtonPair(markYesBtn, markNoBtn);
+      resetMarkButtons();
       renderMarkStep();
 
       showView("mark");
-      startGrow("mark");
+      startMarkGrow();
     }
 
     function openMeFlow() {
       clearInterval(introInterval);
-      clearInterval(dateInterval);
       clearInterval(markInterval);
 
       showView("me");
       startHeartRain();
     }
 
-    startGrow("intro");
+    startIntroGrow();
 
     introNoBtn.addEventListener("mouseover", () => {
       moveNoButton(introNoBtn, introYesBtn, "intro");
@@ -716,42 +576,12 @@
       }, 900);
     });
 
-    dateOption.addEventListener("click", () => {
-      openDateFlow();
-    });
-
     markOption.addEventListener("click", () => {
       openMarkFlow();
     });
 
     meOption.addEventListener("click", () => {
       openMeFlow();
-    });
-
-    dateNoBtn.addEventListener("mouseover", () => {
-      moveNoButton(dateNoBtn, dateYesBtn, "date");
-    });
-
-    dateNoBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      moveNoButton(dateNoBtn, dateYesBtn, "date");
-    });
-
-    dateNoBtn.addEventListener("touchstart", (event) => {
-      event.preventDefault();
-      moveNoButton(dateNoBtn, dateYesBtn, "date");
-    });
-
-    dateYesBtn.addEventListener("click", () => {
-      clearInterval(dateInterval);
-
-      dateMessage.textContent = "3. Date ist offiziell in Planung :)";
-      dateYesBtn.textContent = "Perfekt";
-      dateNoBtn.style.display = "none";
-
-      for (let i = 0; i < 16; i++) {
-        setTimeout(createHeart, i * 120);
-      }
     });
 
     markNoBtn.addEventListener("mouseover", () => {
@@ -784,11 +614,6 @@
           setTimeout(createHeart, i * 120);
         }
       }
-    });
-
-    backToChoicesFromDate.addEventListener("click", () => {
-      clearInterval(dateInterval);
-      showView("choices");
     });
 
     backToChoicesFromMark.addEventListener("click", () => {
