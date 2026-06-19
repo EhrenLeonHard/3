@@ -88,7 +88,7 @@
     }
 
     #introYesBtn,
-    #detailYesBtn,
+    #dateYesBtn,
     #markYesBtn {
       margin-right: 18px;
       transform-origin: center;
@@ -97,7 +97,7 @@
     }
 
     #introNoBtn,
-    #detailNoBtn,
+    #dateNoBtn,
     #markNoBtn {
       position: absolute;
       left: 230px;
@@ -106,8 +106,9 @@
     }
 
     #introMessage,
-    #detailMessage,
-    #markMessage {
+    #dateMessage,
+    #markMessage,
+    #meMessage {
       margin-top: 20px;
       font-weight: bold;
       color: #ff4f93;
@@ -232,11 +233,11 @@
     <div id="choicesView" class="hidden">
       <div class="name">Für Amy</div>
       <h1>Okay Amy, was wäre dein Favorit?</h1>
-      <p>Wenn schon nächstes Date, dann mit Auswahl.</p>
+      <p>Jetzt gibt es drei Optionen.</p>
 
       <div class="options-grid">
 
-        <div class="option-card" data-choice="3. Date" data-question="Amy, direkt 3. Date?">
+        <div class="option-card" id="dateOption">
           <svg class="option-image" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
@@ -255,8 +256,8 @@
 
           <div class="option-content">
             <div class="option-title">3. Date</div>
-            <div class="option-text">Ambitioniert. Man kann nie zu früh strategisch planen.</div>
-            <div class="pill">klingt effizient</div>
+            <div class="option-text">Ambitioniert. Erst 2. Date zusagen, dann direkt strategisch weiterdenken.</div>
+            <div class="pill">vorausschauend</div>
           </div>
         </div>
 
@@ -270,42 +271,31 @@
           </div>
         </div>
 
-        <div class="option-card" data-choice="Kaffee & Spaziergang" data-question="Amy, Kaffee & Spaziergang?">
-          <svg class="option-image" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
-            <rect width="600" height="360" fill="#fff3e7"/>
-            <rect y="255" width="600" height="105" fill="#cfe9c7"/>
-            <circle cx="490" cy="72" r="42" fill="#ffd06b"/>
-            <path d="M118 265 C170 180, 265 180, 320 265" stroke="#8fba87" stroke-width="14" fill="none"/>
-            <path d="M280 105 h120 a20 20 0 0 1 20 20 v65 a20 20 0 0 1 -20 20 h-120 z" fill="#d9a36d"/>
-            <path d="M400 130 h30 a22 22 0 0 1 0 55 h-30" fill="none" stroke="#d9a36d" stroke-width="14"/>
-            <path d="M310 80 C300 60, 325 50, 320 28" stroke="#c18d60" stroke-width="8" fill="none" stroke-linecap="round"/>
-            <path d="M350 80 C340 60, 365 50, 360 28" stroke="#c18d60" stroke-width="8" fill="none" stroke-linecap="round"/>
-            <text x="300" y="322" font-size="36" text-anchor="middle" font-family="Arial" fill="#6d5142" font-weight="bold">Kaffee & Spaziergang</text>
-          </svg>
+        <div class="option-card" id="meOption">
+          <img class="option-image" src="mein-bild.jpg" alt="Mein Bild" />
 
           <div class="option-content">
-            <div class="option-title">Kaffee & Spaziergang</div>
-            <div class="option-text">Der solide Klassiker. Ruhig, entspannt und schwer zu haten.</div>
-            <div class="pill">safe choice</div>
+            <div class="option-title">Oder einfach ich?</div>
+            <div class="option-text">Realistischer als Mark Forster und wahrscheinlich einfacher zu erreichen.</div>
+            <div class="pill">Herzregen garantiert</div>
           </div>
         </div>
 
       </div>
     </div>
 
-    <div id="detailView" class="hidden">
+    <div id="dateView" class="hidden">
       <div class="name">Für Amy</div>
-      <h2 id="detailTitle">Option</h2>
-      <img id="detailImage" class="detail-image" alt="Ausgewählte Option" />
-      <p id="detailText">Jetzt kommt nochmal dieselbe Ja/Nein-Abfrage.</p>
+      <h2>Amy, direkt 3. Date?</h2>
+      <p>Das ist zwar sehr ambitioniert, aber ich unterstütze diesen Gedanken.</p>
 
       <div class="buttons">
-        <button id="detailYesBtn" class="pink-btn">Ja</button>
-        <button id="detailNoBtn" class="gray-btn">Nein</button>
+        <button id="dateYesBtn" class="pink-btn">Ja</button>
+        <button id="dateNoBtn" class="gray-btn">Nein</button>
       </div>
 
-      <div id="detailMessage"></div>
-      <button class="back-btn" id="backToChoicesFromDetail">Zurück zur Auswahl</button>
+      <div id="dateMessage"></div>
+      <button class="back-btn" id="backToChoicesFromDate">Zurück zur Auswahl</button>
     </div>
 
     <div id="markView" class="hidden">
@@ -324,24 +314,32 @@
       <button class="back-btn" id="backToChoicesFromMark">Zurück zur Auswahl</button>
     </div>
 
+    <div id="meView" class="hidden">
+      <div class="name">Für Amy</div>
+      <h2>Sehr gute Wahl :)</h2>
+      <img class="detail-image" src="mein-bild.jpg" alt="Mein Bild" />
+      <p>Endlich eine realistische Option. Dafür regnet es jetzt Herzen.</p>
+      <div id="meMessage">Offiziell notiert: Amy hat die beste Option gewählt.</div>
+      <button class="back-btn" id="backToChoicesFromMe">Zurück zur Auswahl</button>
+    </div>
+
   </div>
 
   <script>
     const introView = document.getElementById("introView");
     const choicesView = document.getElementById("choicesView");
-    const detailView = document.getElementById("detailView");
+    const dateView = document.getElementById("dateView");
     const markView = document.getElementById("markView");
+    const meView = document.getElementById("meView");
 
     const introYesBtn = document.getElementById("introYesBtn");
     const introNoBtn = document.getElementById("introNoBtn");
     const introMessage = document.getElementById("introMessage");
 
-    const detailYesBtn = document.getElementById("detailYesBtn");
-    const detailNoBtn = document.getElementById("detailNoBtn");
-    const detailTitle = document.getElementById("detailTitle");
-    const detailImage = document.getElementById("detailImage");
-    const detailText = document.getElementById("detailText");
-    const detailMessage = document.getElementById("detailMessage");
+    const dateOption = document.getElementById("dateOption");
+    const dateYesBtn = document.getElementById("dateYesBtn");
+    const dateNoBtn = document.getElementById("dateNoBtn");
+    const dateMessage = document.getElementById("dateMessage");
 
     const markOption = document.getElementById("markOption");
     const markYesBtn = document.getElementById("markYesBtn");
@@ -352,22 +350,25 @@
     const markText = document.getElementById("markText");
     const markMessage = document.getElementById("markMessage");
 
-    const backToChoicesFromDetail = document.getElementById("backToChoicesFromDetail");
+    const meOption = document.getElementById("meOption");
+
+    const backToChoicesFromDate = document.getElementById("backToChoicesFromDate");
     const backToChoicesFromMark = document.getElementById("backToChoicesFromMark");
+    const backToChoicesFromMe = document.getElementById("backToChoicesFromMe");
 
     let introYesSize = 1;
-    let detailYesSize = 1;
+    let dateYesSize = 1;
     let markYesSize = 1;
 
     let introNoTries = 0;
-    let detailNoTries = 0;
+    let dateNoTries = 0;
     let markNoTries = 0;
 
     let introInterval;
-    let detailInterval;
+    let dateInterval;
     let markInterval;
+    let heartRainInterval;
 
-    let selectedChoice = "";
     let markStep = 0;
 
     const introNoTexts = [
@@ -381,12 +382,12 @@
       "Systemfehler"
     ];
 
-    const detailNoTexts = [
+    const dateNoTexts = [
       "Nein",
       "Sicher?",
       "Wirklich?",
-      "Nope?",
-      "Falscher Button",
+      "Denk nochmal nach",
+      "3. Date ist doch gut",
       "Du meinst Ja",
       "Fast erwischt",
       "Systemfehler"
@@ -409,42 +410,48 @@
         hint: "Es folgt nun eine sachliche Prüfung dieser Wahl.",
         text: "Bist du dir sicher, dass es wirklich Mark Forster sein muss?",
         image: "mark-forster.jpg",
-        alt: "Mark Forster Option"
+        alt: "Mark Forster Option",
+        button: "Ja"
       },
       {
         title: "Kurzer Hinweis",
         hint: "Realitätscheck Stufe 1",
         text: "Er ist verheiratet.",
         image: "mark-forster.jpg",
-        alt: "Mark Forster Option"
+        alt: "Mark Forster Option",
+        button: "Trotzdem weiter"
       },
       {
         title: "Noch ein Hinweis",
         hint: "Realitätscheck Stufe 2",
         text: "Er hat ein Kind.",
         image: "mark-forster.jpg",
-        alt: "Mark Forster Option"
+        alt: "Mark Forster Option",
+        button: "Okay, weiter"
       },
       {
         title: "Sportsfreund...",
         hint: "Realitätscheck Stufe 3",
         text: "Sportsfreund, er ist nicht single.",
         image: "mark-forster.jpg",
-        alt: "Mark Forster Option"
+        alt: "Mark Forster Option",
+        button: "Ich verstehe"
       },
       {
         title: "Letzter musikalischer Hinweis",
         hint: "Realitätscheck Stufe 4",
         text: "Die Chöre werden nicht für dich singen.",
         image: "mark-forster.jpg",
-        alt: "Mark Forster Option"
+        alt: "Mark Forster Option",
+        button: "Autsch"
       },
       {
         title: "Vielleicht die realistischere Option?",
         hint: "Alternative mit besseren Erfolgsaussichten",
         text: "Bevor du weiter davon träumst: Hier wäre doch auch ein ziemlich guter Vorschlag.",
         image: "mein-bild.jpg",
-        alt: "Realistischere Option"
+        alt: "Realistischere Option",
+        button: "Okay, dann lieber du"
       }
     ];
 
@@ -461,16 +468,32 @@
       }, 4000);
     }
 
+    function startHeartRain() {
+      clearInterval(heartRainInterval);
+
+      for (let i = 0; i < 25; i++) {
+        setTimeout(createHeart, i * 80);
+      }
+
+      heartRainInterval = setInterval(createHeart, 160);
+
+      setTimeout(() => {
+        clearInterval(heartRainInterval);
+      }, 7000);
+    }
+
     function showView(viewName) {
       introView.classList.add("hidden");
       choicesView.classList.add("hidden");
-      detailView.classList.add("hidden");
+      dateView.classList.add("hidden");
       markView.classList.add("hidden");
+      meView.classList.add("hidden");
 
       if (viewName === "intro") introView.classList.remove("hidden");
       if (viewName === "choices") choicesView.classList.remove("hidden");
-      if (viewName === "detail") detailView.classList.remove("hidden");
+      if (viewName === "date") dateView.classList.remove("hidden");
       if (viewName === "mark") markView.classList.remove("hidden");
+      if (viewName === "me") meView.classList.remove("hidden");
     }
 
     function startGrow(kind) {
@@ -495,23 +518,23 @@
         }, 700);
       }
 
-      if (kind === "detail") {
-        clearInterval(detailInterval);
+      if (kind === "date") {
+        clearInterval(dateInterval);
 
-        detailInterval = setInterval(() => {
-          detailYesSize += 0.04;
-          detailYesBtn.style.transform = `scale(${detailYesSize})`;
+        dateInterval = setInterval(() => {
+          dateYesSize += 0.04;
+          dateYesBtn.style.transform = `scale(${dateYesSize})`;
 
-          if (detailYesSize > 2.2) {
-            detailMessage.textContent = "Der Ja-Button wird überzeugender.";
+          if (dateYesSize > 2.2) {
+            dateMessage.textContent = "3. Date klingt immer überzeugender.";
           }
 
-          if (detailYesSize > 3.2) {
-            detailMessage.textContent = "Es wird schwierig für Nein.";
+          if (dateYesSize > 3.2) {
+            dateMessage.textContent = "Es wird schwierig gegen das 3. Date zu argumentieren.";
           }
 
-          if (detailYesSize > 4.3) {
-            detailMessage.textContent = "Ja ist hier fast alternativlos.";
+          if (dateYesSize > 4.3) {
+            dateMessage.textContent = "Das 3. Date ist fast beschlossen.";
           }
         }, 700);
       }
@@ -567,23 +590,23 @@
         }
       }
 
-      if (kind === "detail") {
-        detailYesSize += 0.18;
-        yesBtn.style.transform = `scale(${detailYesSize})`;
-        detailNoTries++;
-        noBtn.textContent = detailNoTexts[detailNoTries % detailNoTexts.length];
+      if (kind === "date") {
+        dateYesSize += 0.18;
+        yesBtn.style.transform = `scale(${dateYesSize})`;
+        dateNoTries++;
+        noBtn.textContent = dateNoTexts[dateNoTries % dateNoTexts.length];
 
-        if (detailNoTries === 3) {
-          detailMessage.textContent = "Nein ist hier erstaunlich schwer anklickbar.";
+        if (dateNoTries === 3) {
+          dateMessage.textContent = "Nein ist beim 3. Date auch eher instabil.";
         }
 
-        if (detailNoTries === 6) {
-          detailMessage.textContent = "System empfiehlt auch hier klar: Ja.";
+        if (dateNoTries === 6) {
+          dateMessage.textContent = "System empfiehlt: 3. Date.";
         }
 
-        if (detailNoTries === 10) {
+        if (dateNoTries === 10) {
           noBtn.style.display = "none";
-          detailMessage.textContent = "Nein wurde vorübergehend deaktiviert.";
+          dateMessage.textContent = "Nein wurde aus Planungsgründen entfernt.";
         }
       }
 
@@ -617,21 +640,15 @@
       noBtn.style.top = "0";
     }
 
-    function openGenericDetail(choice, question, imageSrc) {
-      selectedChoice = choice;
-      detailTitle.textContent = question;
-      detailImage.src = imageSrc;
-      detailImage.alt = choice;
-      detailText.textContent = `Jetzt die wichtige Frage zu "${choice}".`;
-      detailMessage.textContent = "";
+    function openDateFlow() {
+      dateYesSize = 1;
+      dateNoTries = 0;
+      dateMessage.textContent = "";
+      dateYesBtn.textContent = "Ja";
+      resetButtonPair(dateYesBtn, dateNoBtn);
 
-      detailYesSize = 1;
-      detailNoTries = 0;
-      detailYesBtn.textContent = "Ja";
-      resetButtonPair(detailYesBtn, detailNoBtn);
-
-      showView("detail");
-      startGrow("detail");
+      showView("date");
+      startGrow("date");
     }
 
     function renderMarkStep() {
@@ -642,12 +659,7 @@
       markText.textContent = step.text;
       markImage.src = step.image;
       markImage.alt = step.alt;
-
-      if (markStep < markSteps.length - 1) {
-        markYesBtn.textContent = "Ja";
-      } else {
-        markYesBtn.textContent = "Okay, dann lieber du";
-      }
+      markYesBtn.textContent = step.button;
     }
 
     function openMarkFlow() {
@@ -661,6 +673,15 @@
 
       showView("mark");
       startGrow("mark");
+    }
+
+    function openMeFlow() {
+      clearInterval(introInterval);
+      clearInterval(dateInterval);
+      clearInterval(markInterval);
+
+      showView("me");
+      startHeartRain();
     }
 
     startGrow("intro");
@@ -695,44 +716,38 @@
       }, 900);
     });
 
-    document.querySelectorAll(".option-card[data-choice]").forEach(card => {
-      card.addEventListener("click", () => {
-        const choice = card.dataset.choice;
-        const question = card.dataset.question;
-        const imageEl = card.querySelector(".option-image");
-
-        const imageSrc =
-          "data:image/svg+xml;charset=utf-8," +
-          encodeURIComponent(imageEl.outerHTML);
-
-        openGenericDetail(choice, question, imageSrc);
-      });
+    dateOption.addEventListener("click", () => {
+      openDateFlow();
     });
 
     markOption.addEventListener("click", () => {
       openMarkFlow();
     });
 
-    detailNoBtn.addEventListener("mouseover", () => {
-      moveNoButton(detailNoBtn, detailYesBtn, "detail");
+    meOption.addEventListener("click", () => {
+      openMeFlow();
     });
 
-    detailNoBtn.addEventListener("click", (event) => {
+    dateNoBtn.addEventListener("mouseover", () => {
+      moveNoButton(dateNoBtn, dateYesBtn, "date");
+    });
+
+    dateNoBtn.addEventListener("click", (event) => {
       event.preventDefault();
-      moveNoButton(detailNoBtn, detailYesBtn, "detail");
+      moveNoButton(dateNoBtn, dateYesBtn, "date");
     });
 
-    detailNoBtn.addEventListener("touchstart", (event) => {
+    dateNoBtn.addEventListener("touchstart", (event) => {
       event.preventDefault();
-      moveNoButton(detailNoBtn, detailYesBtn, "detail");
+      moveNoButton(dateNoBtn, dateYesBtn, "date");
     });
 
-    detailYesBtn.addEventListener("click", () => {
-      clearInterval(detailInterval);
+    dateYesBtn.addEventListener("click", () => {
+      clearInterval(dateInterval);
 
-      detailMessage.textContent = `Sehr gute Wahl: ${selectedChoice} :)`;
-      detailYesBtn.textContent = "Perfekt";
-      detailNoBtn.style.display = "none";
+      dateMessage.textContent = "3. Date ist offiziell in Planung :)";
+      dateYesBtn.textContent = "Perfekt";
+      dateNoBtn.style.display = "none";
 
       for (let i = 0; i < 16; i++) {
         setTimeout(createHeart, i * 120);
@@ -771,13 +786,18 @@
       }
     });
 
-    backToChoicesFromDetail.addEventListener("click", () => {
-      clearInterval(detailInterval);
+    backToChoicesFromDate.addEventListener("click", () => {
+      clearInterval(dateInterval);
       showView("choices");
     });
 
     backToChoicesFromMark.addEventListener("click", () => {
       clearInterval(markInterval);
+      showView("choices");
+    });
+
+    backToChoicesFromMe.addEventListener("click", () => {
+      clearInterval(heartRainInterval);
       showView("choices");
     });
   </script>
