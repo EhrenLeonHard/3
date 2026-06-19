@@ -1,1 +1,785 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amy, nächstes Date?</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffe0ec, #fff7fb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 34px;
+      border-radius: 24px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      width: min(94vw, 920px);
+      position: relative;
+      z-index: 2;
+    }
+
+    .name {
+      font-size: 1rem;
+      color: #ff4f93;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+      color: #222;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 1.7rem;
+      color: #222;
+    }
+
+    p {
+      margin: 0 0 24px;
+      color: #555;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .buttons {
+      height: 100px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    button {
+      border: none;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: transform 0.25s ease, left 0.2s ease, top 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .pink-btn {
+      background: #ff4f93;
+      color: white;
+    }
+
+    .gray-btn {
+      background: #eeeeee;
+      color: #333;
+    }
+
+    #introYesBtn,
+    #detailYesBtn,
+    #markYesBtn {
+      margin-right: 18px;
+      transform-origin: center;
+      position: relative;
+      z-index: 3;
+    }
+
+    #introNoBtn,
+    #detailNoBtn,
+    #markNoBtn {
+      position: absolute;
+      left: 230px;
+      top: 0;
+      z-index: 4;
+    }
+
+    #introMessage,
+    #detailMessage,
+    #markMessage {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #ff4f93;
+      min-height: 24px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .option-card {
+      border: 2px solid #ffd0e2;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #fff9fc;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-align: left;
+    }
+
+    .option-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(255, 79, 147, 0.16);
+    }
+
+    .option-image {
+      width: 100%;
+      height: 190px;
+      display: block;
+      object-fit: cover;
+      background: #f7d9e7;
+    }
+
+    .option-content {
+      padding: 16px;
+    }
+
+    .option-title {
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 6px;
+    }
+
+    .option-text {
+      color: #555;
+      font-size: 0.96rem;
+      line-height: 1.35;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #ff4f93;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .back-btn {
+      margin-top: 16px;
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .detail-image {
+      width: min(100%, 520px);
+      height: auto;
+      max-height: 360px;
+      object-fit: cover;
+      border-radius: 20px;
+      display: block;
+      margin: 0 auto 18px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .hint {
+      font-size: 0.95rem;
+      color: #777;
+      margin-bottom: 14px;
+    }
+
+    .heart {
+      position: fixed;
+      top: -30px;
+      font-size: 24px;
+      animation: fall 4s linear forwards;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+
+    <div id="introView">
+      <div class="name">Für Amy</div>
+      <h1>Amy, willst du auf ein 2. Date?</h1>
+      <p>Wähle weise.</p>
+
+      <div class="buttons">
+        <button id="introYesBtn" class="pink-btn">Ja</button>
+        <button id="introNoBtn" class="gray-btn">Nein</button>
+      </div>
+
+      <div id="introMessage"></div>
+    </div>
+
+    <div id="choicesView" class="hidden">
+      <div class="name">Für Amy</div>
+      <h1>Okay Amy, was wäre dein Favorit?</h1>
+      <p>Wenn schon nächstes Date, dann mit Auswahl.</p>
+
+      <div class="options-grid">
+
+        <div class="option-card" data-choice="3. Date" data-question="Amy, direkt 3. Date?">
+          <svg class="option-image" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffd7e7"/>
+                <stop offset="100%" stop-color="#fff1f7"/>
+              </linearGradient>
+            </defs>
+            <rect width="600" height="360" fill="url(#g1)"/>
+            <circle cx="180" cy="150" r="58" fill="#ff9cc4"/>
+            <circle cx="300" cy="120" r="46" fill="#ffc0d8"/>
+            <circle cx="395" cy="165" r="55" fill="#ff7fb1"/>
+            <path d="M155 260 Q210 215 270 260" stroke="#ff4f93" stroke-width="16" fill="none" stroke-linecap="round"/>
+            <path d="M270 260 Q330 215 390 260" stroke="#ff4f93" stroke-width="16" fill="none" stroke-linecap="round"/>
+            <text x="300" y="315" font-size="44" text-anchor="middle" font-family="Arial" fill="#8e2d59" font-weight="bold">3. Date</text>
+          </svg>
+
+          <div class="option-content">
+            <div class="option-title">3. Date</div>
+            <div class="option-text">Ambitioniert. Man kann nie zu früh strategisch planen.</div>
+            <div class="pill">klingt effizient</div>
+          </div>
+        </div>
+
+        <div class="option-card" id="markOption">
+          <img class="option-image" src="mark-forster.jpg" alt="Mark Forster Option" />
+
+          <div class="option-content">
+            <div class="option-title">Mark Forster</div>
+            <div class="option-text">Mit extra Realitätscheck. Da kommt nicht sofort die Zusage durch.</div>
+            <div class="pill">mit Gegenargumenten</div>
+          </div>
+        </div>
+
+        <div class="option-card" data-choice="Kaffee & Spaziergang" data-question="Amy, Kaffee & Spaziergang?">
+          <svg class="option-image" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="360" fill="#fff3e7"/>
+            <rect y="255" width="600" height="105" fill="#cfe9c7"/>
+            <circle cx="490" cy="72" r="42" fill="#ffd06b"/>
+            <path d="M118 265 C170 180, 265 180, 320 265" stroke="#8fba87" stroke-width="14" fill="none"/>
+            <path d="M280 105 h120 a20 20 0 0 1 20 20 v65 a20 20 0 0 1 -20 20 h-120 z" fill="#d9a36d"/>
+            <path d="M400 130 h30 a22 22 0 0 1 0 55 h-30" fill="none" stroke="#d9a36d" stroke-width="14"/>
+            <path d="M310 80 C300 60, 325 50, 320 28" stroke="#c18d60" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M350 80 C340 60, 365 50, 360 28" stroke="#c18d60" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <text x="300" y="322" font-size="36" text-anchor="middle" font-family="Arial" fill="#6d5142" font-weight="bold">Kaffee & Spaziergang</text>
+          </svg>
+
+          <div class="option-content">
+            <div class="option-title">Kaffee & Spaziergang</div>
+            <div class="option-text">Der solide Klassiker. Ruhig, entspannt und schwer zu haten.</div>
+            <div class="pill">safe choice</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="detailView" class="hidden">
+      <div class="name">Für Amy</div>
+      <h2 id="detailTitle">Option</h2>
+      <img id="detailImage" class="detail-image" alt="Ausgewählte Option" />
+      <p id="detailText">Jetzt kommt nochmal dieselbe Ja/Nein-Abfrage.</p>
+
+      <div class="buttons">
+        <button id="detailYesBtn" class="pink-btn">Ja</button>
+        <button id="detailNoBtn" class="gray-btn">Nein</button>
+      </div>
+
+      <div id="detailMessage"></div>
+      <button class="back-btn" id="backToChoicesFromDetail">Zurück zur Auswahl</button>
+    </div>
+
+    <div id="markView" class="hidden">
+      <div class="name">Für Amy</div>
+      <h2 id="markTitle">Amy, bist du dir sicher?</h2>
+      <img id="markImage" class="detail-image" src="mark-forster.jpg" alt="Mark Forster Option" />
+      <div class="hint" id="markHint">Es folgt nun eine sachliche Prüfung dieser Wahl.</div>
+      <p id="markText">Bist du dir sicher?</p>
+
+      <div class="buttons">
+        <button id="markYesBtn" class="pink-btn">Ja</button>
+        <button id="markNoBtn" class="gray-btn">Nein</button>
+      </div>
+
+      <div id="markMessage"></div>
+      <button class="back-btn" id="backToChoicesFromMark">Zurück zur Auswahl</button>
+    </div>
+
+  </div>
+
+  <script>
+    const introView = document.getElementById("introView");
+    const choicesView = document.getElementById("choicesView");
+    const detailView = document.getElementById("detailView");
+    const markView = document.getElementById("markView");
+
+    const introYesBtn = document.getElementById("introYesBtn");
+    const introNoBtn = document.getElementById("introNoBtn");
+    const introMessage = document.getElementById("introMessage");
+
+    const detailYesBtn = document.getElementById("detailYesBtn");
+    const detailNoBtn = document.getElementById("detailNoBtn");
+    const detailTitle = document.getElementById("detailTitle");
+    const detailImage = document.getElementById("detailImage");
+    const detailText = document.getElementById("detailText");
+    const detailMessage = document.getElementById("detailMessage");
+
+    const markOption = document.getElementById("markOption");
+    const markYesBtn = document.getElementById("markYesBtn");
+    const markNoBtn = document.getElementById("markNoBtn");
+    const markTitle = document.getElementById("markTitle");
+    const markImage = document.getElementById("markImage");
+    const markHint = document.getElementById("markHint");
+    const markText = document.getElementById("markText");
+    const markMessage = document.getElementById("markMessage");
+
+    const backToChoicesFromDetail = document.getElementById("backToChoicesFromDetail");
+    const backToChoicesFromMark = document.getElementById("backToChoicesFromMark");
+
+    let introYesSize = 1;
+    let detailYesSize = 1;
+    let markYesSize = 1;
+
+    let introNoTries = 0;
+    let detailNoTries = 0;
+    let markNoTries = 0;
+
+    let introInterval;
+    let detailInterval;
+    let markInterval;
+
+    let selectedChoice = "";
+    let markStep = 0;
+
+    const introNoTexts = [
+      "Nein",
+      "Sicher, Amy?",
+      "Wirklich?",
+      "Denk nochmal nach",
+      "Falscher Button",
+      "Du meinst Ja",
+      "Zu spät",
+      "Systemfehler"
+    ];
+
+    const detailNoTexts = [
+      "Nein",
+      "Sicher?",
+      "Wirklich?",
+      "Nope?",
+      "Falscher Button",
+      "Du meinst Ja",
+      "Fast erwischt",
+      "Systemfehler"
+    ];
+
+    const markNoTexts = [
+      "Nein",
+      "Sicher?",
+      "Wirklich?",
+      "Immer noch Nein?",
+      "Falscher Button",
+      "Du meinst Ja",
+      "Nicht so schnell",
+      "Systemfehler"
+    ];
+
+    const markSteps = [
+      {
+        title: "Amy, bist du dir sicher?",
+        hint: "Es folgt nun eine sachliche Prüfung dieser Wahl.",
+        text: "Bist du dir sicher, dass es wirklich Mark Forster sein muss?",
+        image: "mark-forster.jpg",
+        alt: "Mark Forster Option"
+      },
+      {
+        title: "Kurzer Hinweis",
+        hint: "Realitätscheck Stufe 1",
+        text: "Er ist verheiratet.",
+        image: "mark-forster.jpg",
+        alt: "Mark Forster Option"
+      },
+      {
+        title: "Noch ein Hinweis",
+        hint: "Realitätscheck Stufe 2",
+        text: "Er hat ein Kind.",
+        image: "mark-forster.jpg",
+        alt: "Mark Forster Option"
+      },
+      {
+        title: "Sportsfreund...",
+        hint: "Realitätscheck Stufe 3",
+        text: "Sportsfreund, er ist nicht single.",
+        image: "mark-forster.jpg",
+        alt: "Mark Forster Option"
+      },
+      {
+        title: "Letzter musikalischer Hinweis",
+        hint: "Realitätscheck Stufe 4",
+        text: "Die Chöre werden nicht für dich singen.",
+        image: "mark-forster.jpg",
+        alt: "Mark Forster Option"
+      },
+      {
+        title: "Vielleicht die realistischere Option?",
+        hint: "Alternative mit besseren Erfolgsaussichten",
+        text: "Bevor du weiter davon träumst: Hier wäre doch auch ein ziemlich guter Vorschlag.",
+        image: "mein-bild.jpg",
+        alt: "Realistischere Option"
+      }
+    ];
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "♥";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 20 + 18) + "px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 4000);
+    }
+
+    function showView(viewName) {
+      introView.classList.add("hidden");
+      choicesView.classList.add("hidden");
+      detailView.classList.add("hidden");
+      markView.classList.add("hidden");
+
+      if (viewName === "intro") introView.classList.remove("hidden");
+      if (viewName === "choices") choicesView.classList.remove("hidden");
+      if (viewName === "detail") detailView.classList.remove("hidden");
+      if (viewName === "mark") markView.classList.remove("hidden");
+    }
+
+    function startGrow(kind) {
+      if (kind === "intro") {
+        clearInterval(introInterval);
+
+        introInterval = setInterval(() => {
+          introYesSize += 0.04;
+          introYesBtn.style.transform = `scale(${introYesSize})`;
+
+          if (introYesSize > 2.2) {
+            introMessage.textContent = "Der Ja-Button gewinnt langsam an Argumenten.";
+          }
+
+          if (introYesSize > 3.2) {
+            introMessage.textContent = "Es wird eng für Nein, Amy.";
+          }
+
+          if (introYesSize > 4.3) {
+            introMessage.textContent = "Ja ist jetzt praktisch unvermeidbar.";
+          }
+        }, 700);
+      }
+
+      if (kind === "detail") {
+        clearInterval(detailInterval);
+
+        detailInterval = setInterval(() => {
+          detailYesSize += 0.04;
+          detailYesBtn.style.transform = `scale(${detailYesSize})`;
+
+          if (detailYesSize > 2.2) {
+            detailMessage.textContent = "Der Ja-Button wird überzeugender.";
+          }
+
+          if (detailYesSize > 3.2) {
+            detailMessage.textContent = "Es wird schwierig für Nein.";
+          }
+
+          if (detailYesSize > 4.3) {
+            detailMessage.textContent = "Ja ist hier fast alternativlos.";
+          }
+        }, 700);
+      }
+
+      if (kind === "mark") {
+        clearInterval(markInterval);
+
+        markInterval = setInterval(() => {
+          markYesSize += 0.04;
+          markYesBtn.style.transform = `scale(${markYesSize})`;
+
+          if (markYesSize > 2.2) {
+            markMessage.textContent = "Der Ja-Button versucht dich zur Vernunft zu bringen.";
+          }
+
+          if (markYesSize > 3.2) {
+            markMessage.textContent = "Es wird auch hier eng für Nein.";
+          }
+
+          if (markYesSize > 4.3) {
+            markMessage.textContent = "Vielleicht ist Mark Forster doch nicht die beste Idee.";
+          }
+        }, 700);
+      }
+    }
+
+    function moveNoButton(noBtn, yesBtn, kind) {
+      const padding = 20;
+      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+      const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+      noBtn.style.position = "fixed";
+      noBtn.style.left = Math.floor(Math.random() * Math.max(maxX, 1)) + "px";
+      noBtn.style.top = Math.floor(Math.random() * Math.max(maxY, 1)) + "px";
+
+      if (kind === "intro") {
+        introYesSize += 0.18;
+        yesBtn.style.transform = `scale(${introYesSize})`;
+        introNoTries++;
+        noBtn.textContent = introNoTexts[introNoTries % introNoTexts.length];
+
+        if (introNoTries === 3) {
+          introMessage.textContent = "Nein wirkt technisch instabil.";
+        }
+
+        if (introNoTries === 6) {
+          introMessage.textContent = "System empfiehlt für Amy eindeutig: Ja.";
+        }
+
+        if (introNoTries === 10) {
+          noBtn.style.display = "none";
+          introMessage.textContent = "Nein wurde aus Qualitätsgründen entfernt.";
+        }
+      }
+
+      if (kind === "detail") {
+        detailYesSize += 0.18;
+        yesBtn.style.transform = `scale(${detailYesSize})`;
+        detailNoTries++;
+        noBtn.textContent = detailNoTexts[detailNoTries % detailNoTexts.length];
+
+        if (detailNoTries === 3) {
+          detailMessage.textContent = "Nein ist hier erstaunlich schwer anklickbar.";
+        }
+
+        if (detailNoTries === 6) {
+          detailMessage.textContent = "System empfiehlt auch hier klar: Ja.";
+        }
+
+        if (detailNoTries === 10) {
+          noBtn.style.display = "none";
+          detailMessage.textContent = "Nein wurde vorübergehend deaktiviert.";
+        }
+      }
+
+      if (kind === "mark") {
+        markYesSize += 0.18;
+        yesBtn.style.transform = `scale(${markYesSize})`;
+        markNoTries++;
+        noBtn.textContent = markNoTexts[markNoTries % markNoTexts.length];
+
+        if (markNoTries === 3) {
+          markMessage.textContent = "Nein macht es sich auch hier unnötig schwer.";
+        }
+
+        if (markNoTries === 6) {
+          markMessage.textContent = "Das System versucht weiterhin, dich zu retten.";
+        }
+
+        if (markNoTries === 10) {
+          noBtn.style.display = "none";
+          markMessage.textContent = "Nein wurde aus Vernunftgründen entfernt.";
+        }
+      }
+    }
+
+    function resetButtonPair(yesBtn, noBtn) {
+      yesBtn.style.transform = "scale(1)";
+      noBtn.style.display = "inline-block";
+      noBtn.textContent = "Nein";
+      noBtn.style.position = "absolute";
+      noBtn.style.left = "230px";
+      noBtn.style.top = "0";
+    }
+
+    function openGenericDetail(choice, question, imageSrc) {
+      selectedChoice = choice;
+      detailTitle.textContent = question;
+      detailImage.src = imageSrc;
+      detailImage.alt = choice;
+      detailText.textContent = `Jetzt die wichtige Frage zu "${choice}".`;
+      detailMessage.textContent = "";
+
+      detailYesSize = 1;
+      detailNoTries = 0;
+      detailYesBtn.textContent = "Ja";
+      resetButtonPair(detailYesBtn, detailNoBtn);
+
+      showView("detail");
+      startGrow("detail");
+    }
+
+    function renderMarkStep() {
+      const step = markSteps[markStep];
+
+      markTitle.textContent = step.title;
+      markHint.textContent = step.hint;
+      markText.textContent = step.text;
+      markImage.src = step.image;
+      markImage.alt = step.alt;
+
+      if (markStep < markSteps.length - 1) {
+        markYesBtn.textContent = "Ja";
+      } else {
+        markYesBtn.textContent = "Okay, dann lieber du";
+      }
+    }
+
+    function openMarkFlow() {
+      markStep = 0;
+      markYesSize = 1;
+      markNoTries = 0;
+      markMessage.textContent = "";
+
+      resetButtonPair(markYesBtn, markNoBtn);
+      renderMarkStep();
+
+      showView("mark");
+      startGrow("mark");
+    }
+
+    startGrow("intro");
+
+    introNoBtn.addEventListener("mouseover", () => {
+      moveNoButton(introNoBtn, introYesBtn, "intro");
+    });
+
+    introNoBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      moveNoButton(introNoBtn, introYesBtn, "intro");
+    });
+
+    introNoBtn.addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      moveNoButton(introNoBtn, introYesBtn, "intro");
+    });
+
+    introYesBtn.addEventListener("click", () => {
+      clearInterval(introInterval);
+
+      introMessage.textContent = "Richtige Entscheidung, Amy :)";
+      introYesBtn.textContent = "Sehr gut";
+      introNoBtn.style.display = "none";
+
+      for (let i = 0; i < 18; i++) {
+        setTimeout(createHeart, i * 120);
+      }
+
+      setTimeout(() => {
+        showView("choices");
+      }, 900);
+    });
+
+    document.querySelectorAll(".option-card[data-choice]").forEach(card => {
+      card.addEventListener("click", () => {
+        const choice = card.dataset.choice;
+        const question = card.dataset.question;
+        const imageEl = card.querySelector(".option-image");
+
+        const imageSrc =
+          "data:image/svg+xml;charset=utf-8," +
+          encodeURIComponent(imageEl.outerHTML);
+
+        openGenericDetail(choice, question, imageSrc);
+      });
+    });
+
+    markOption.addEventListener("click", () => {
+      openMarkFlow();
+    });
+
+    detailNoBtn.addEventListener("mouseover", () => {
+      moveNoButton(detailNoBtn, detailYesBtn, "detail");
+    });
+
+    detailNoBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      moveNoButton(detailNoBtn, detailYesBtn, "detail");
+    });
+
+    detailNoBtn.addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      moveNoButton(detailNoBtn, detailYesBtn, "detail");
+    });
+
+    detailYesBtn.addEventListener("click", () => {
+      clearInterval(detailInterval);
+
+      detailMessage.textContent = `Sehr gute Wahl: ${selectedChoice} :)`;
+      detailYesBtn.textContent = "Perfekt";
+      detailNoBtn.style.display = "none";
+
+      for (let i = 0; i < 16; i++) {
+        setTimeout(createHeart, i * 120);
+      }
+    });
+
+    markNoBtn.addEventListener("mouseover", () => {
+      moveNoButton(markNoBtn, markYesBtn, "mark");
+    });
+
+    markNoBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      moveNoButton(markNoBtn, markYesBtn, "mark");
+    });
+
+    markNoBtn.addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      moveNoButton(markNoBtn, markYesBtn, "mark");
+    });
+
+    markYesBtn.addEventListener("click", () => {
+      if (markStep < markSteps.length - 1) {
+        markStep++;
+        renderMarkStep();
+        markMessage.textContent = "";
+      } else {
+        clearInterval(markInterval);
+
+        markMessage.textContent = "Sehr vernünftige Entscheidung :)";
+        markYesBtn.textContent = "Perfekt";
+        markNoBtn.style.display = "none";
+
+        for (let i = 0; i < 18; i++) {
+          setTimeout(createHeart, i * 120);
+        }
+      }
+    });
+
+    backToChoicesFromDetail.addEventListener("click", () => {
+      clearInterval(detailInterval);
+      showView("choices");
+    });
+
+    backToChoicesFromMark.addEventListener("click", () => {
+      clearInterval(markInterval);
+      showView("choices");
+    });
+  </script>
+</body>
+</html>
