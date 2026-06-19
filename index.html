@@ -115,13 +115,13 @@
     .options-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(220px, 1fr));
-      gap: 18px;
-      margin-top: 20px;
+      gap: 22px;
+      margin-top: 26px;
     }
 
     .option-card {
       border: 2px solid #ffd0e2;
-      border-radius: 20px;
+      border-radius: 22px;
       overflow: hidden;
       background: #fff9fc;
       cursor: pointer;
@@ -136,7 +136,7 @@
 
     .option-image {
       width: 100%;
-      height: 240px;
+      height: 320px;
       display: block;
       object-fit: cover;
       background: #f7d9e7;
@@ -147,6 +147,7 @@
       font-weight: bold;
       color: #222;
       padding: 16px;
+      background: white;
     }
 
     .back-btn {
@@ -198,7 +199,7 @@
       }
 
       .option-image {
-        height: 220px;
+        height: 260px;
       }
     }
   </style>
@@ -231,7 +232,7 @@
         </div>
 
         <div class="option-card" id="meOption">
-          <img class="option-image" src="mein-bild.jpg" alt="Ich" />
+          <img class="option-image" src="mein-bild.jpg" alt="Mich" />
           <div class="option-title">Mich</div>
         </div>
       </div>
@@ -256,7 +257,7 @@
     <div id="meView" class="hidden">
       <div class="name">Für Amy</div>
       <h2>Sehr gute Wahl :)</h2>
-      <img class="detail-image" src="mein-bild.jpg" alt="Ich" />
+      <img class="detail-image" src="mein-bild.jpg" alt="Mich" />
       <p>Endlich eine realistische Option. Dafür regnet es jetzt Herzen.</p>
       <div id="meMessage">Offiziell notiert: Amy hat die beste Option gewählt.</div>
       <button class="back-btn" id="backToChoicesFromMe">Zurück zur Auswahl</button>
@@ -368,7 +369,7 @@
         hint: "Alternative mit besseren Erfolgsaussichten",
         text: "Bevor du weiter davon träumst: Hier wäre doch auch ein ziemlich guter Vorschlag.",
         image: "mein-bild.jpg",
-        alt: "Ich",
+        alt: "Mich",
         button: "Okay, dann lieber du"
       }
     ];
